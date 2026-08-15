@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop 7 — Algebra: it begins in kindergarten</title>
+<style>
+:root{
+  --ink:#181d2c; --ink-2:#464e63; --muted:#6c7488;
+  --line:#e2e4eb; --line-2:#ccd0dc;
+  --paper:#fff; --tint:#f5f6fa;
+  --accent:#24527d; --accent-tint:#eaf1f8;
+  --warm:#9c4a24; --warm-tint:#fbeee7;
+  --go:#1a6b52; --go-tint:#e7f2ee;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--tint);color:var(--ink);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px 100px}
+
+header.top{background:var(--ink);color:#fff;padding:32px 0 28px}
+header.top .wrap{padding-bottom:0}
+.eyebrow{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:#8fb0d4;margin:0 0 10px}
+.eyebrow a{color:#8fb0d4;text-decoration:none;border-bottom:1px solid #33507a}
+.eyebrow a:hover{color:#bcd4ec}
+header.top h1{font-size:30px;line-height:1.25;margin:0 0 12px;font-weight:600}
+header.top p.sub{margin:0;color:#c4c8d6;font-size:15.5px;max-width:640px}
+.srcline{margin-top:18px;padding-top:16px;border-top:1px solid #2f3549;font-size:13px;color:#8fb0d4}
+.srcline a{color:#aecbe8}
+
+section{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:28px 30px;margin:22px 0}
+h2{font-size:22px;margin:0 0 6px;font-weight:600;line-height:1.3}
+h3{font-size:17px;margin:26px 0 8px;font-weight:600}
+p{margin:0 0 14px}
+.lede{color:var(--ink-2);font-size:16.5px;margin-bottom:20px}
+code{background:var(--tint);padding:2px 6px;border-radius:4px;font-size:13.5px}
+
+.phase{display:inline-block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;
+  font-weight:600;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.p-solo{background:var(--accent-tint);color:var(--accent)}
+.p-group{background:var(--warm-tint);color:var(--warm)}
+.p-after{background:var(--go-tint);color:var(--go)}
+.time{font-size:13px;color:var(--muted);font-weight:400;margin-left:8px}
+
+video{width:100%;border-radius:8px;background:#000;display:block;margin:6px 0 8px}
+.vnote{font-size:13.5px;color:var(--muted);margin:0 0 4px}
+.vnote a{color:var(--accent)}
+
+.callout{background:var(--accent-tint);border-radius:8px;padding:18px 20px;margin:20px 0}
+.callout.warm{background:var(--warm-tint)}
+.callout.go{background:var(--go-tint)}
+.callout p:last-child{margin-bottom:0}
+.callout strong{font-weight:600}
+
+.prompt{border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:16px 0;background:#fcfcfd}
+.prompt .q{font-weight:600;margin:0 0 4px;font-size:15.5px}
+.prompt .why{font-size:13.5px;color:var(--muted);margin:0 0 12px;font-style:italic}
+textarea{width:100%;min-height:88px;padding:11px 13px;border:1px solid var(--line-2);
+  border-radius:6px;font:15px/1.6 inherit;color:var(--ink);background:#fff;resize:vertical}
+textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.saved{font-size:12.5px;color:var(--go);height:16px;margin-top:5px}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.t{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums;width:78px}
+td.item{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.maths{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}
+
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:7px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.card{border:1px solid var(--line);border-radius:8px;padding:16px 18px;background:#fcfcfd}
+.card h4{margin:0 0 4px;font-size:15px;font-weight:600}
+.card .attr{font-size:12.5px;color:var(--muted);margin:0 0 8px}
+.card p{font-size:14px;margin:0 0 8px;color:var(--ink-2)}
+.card p:last-child{margin:0}
+.card .best{font-size:13px;color:var(--go);font-weight:500}
+
+.wrong{border-left:3px solid var(--warm);background:var(--warm-tint);padding:12px 16px;margin:14px 0;font-size:14.5px}
+.wrong strong{font-weight:600}
+.tell{font-size:14px;color:var(--muted);margin:0 0 14px}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--line);padding:11px 0;backdrop-filter:blur(6px)}
+.bar .wrap{display:flex;align-items:center;gap:14px;padding-bottom:0}
+.bar .lbl{font-size:13px;color:var(--muted);flex:1}
+button{font:14px inherit;padding:8px 15px;border:1px solid var(--line-2);background:#fff;
+  color:var(--ink);border-radius:6px;cursor:pointer}
+button:hover{background:var(--tint);border-color:var(--muted)}
+.track{height:5px;background:var(--line);border-radius:3px;width:120px;overflow:hidden}
+.track > i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+
+.foot{font-size:13.5px;color:var(--muted);padding:8px 4px}
+.foot a{color:var(--accent)}
+
+@media print{
+  body{background:#fff}
+  .bar,video,.vnote{display:none}
+  section{border:none;padding:0;margin:0 0 24px;break-inside:avoid}
+  header.top{background:#fff;color:#000;padding:0 0 18px}
+  header.top h1,header.top p.sub,.srcline,.eyebrow{color:#000}
+  textarea{border:1px solid #999;min-height:60px}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap">
+    <span class="lbl" id="status">0 of 9 saved. This browser only, nobody else can see them.</span>
+    <div class="track"><i id="tfill" style="width:0%"></i></div>
+    <button onclick="window.print()">Print / PDF</button>
+    <button onclick="clearAll()">Clear</button>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow"><a href="https://lweb.cfa.harvard.edu/smgdvl/mbi/index.html">Mathematics: What's the Big Idea?</a> · Workshop 7</p>
+    <h1>Algebra: it begins in kindergarten</h1>
+    <p class="sub">Algebra is not a subject that starts in year 7. It is a way of thinking that either gets built across six years of primary arithmetic, or gets quietly blocked by it. This session is for both halves of a school at once.</p>
+    <div class="srcline">
+      Video: <em>Mathematics: What's the Big Idea?</em>, Workshop 7, guide Monica Neagoy. Smithsonian Institution Astrophysical Observatory with the Annenberg Foundation, 1997.
+      The programme guide is at <a href="https://lweb.cfa.harvard.edu/smgdvl/mbi/guide.pdf">guide.pdf</a> — a scan, so it is not searchable. Facilitation materials on this page are original.
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <span class="phase p-solo">Before the session · on your own</span>
+  <h2>1. The student who was fine until algebra<span class="time">10 minutes</span></h2>
+  <p class="lede">Every secondary maths department knows this student: strong on arithmetic, quick with number, and then letters arrive and they stall. Every primary teacher has taught them, and taught them well.</p>
+
+  <div class="prompt">
+    <p class="q">Name the point where algebra first goes wrong for your students.</p>
+    <p class="why">Be specific — a topic, not a year group. "Solving equations" is too broad; "solving when the unknown appears on both sides" is a place we can look.</p>
+    <textarea data-k="cliff" placeholder="Mine fall over at..."></textarea>
+    <div class="saved"></div>
+  </div>
+
+  <div class="prompt">
+    <p class="q">If you teach primary: what do you already do that you would call algebra?</p>
+    <p class="why">Most primary teachers say "nothing". Most primary teachers do it several times a week without calling it that. Answer before you read on.</p>
+    <textarea data-k="primary" placeholder="I wouldn't have called any of it algebra, but..."></textarea>
+    <div class="saved"></div>
+  </div>
+</section>
+
+<section>
+  <span class="phase p-solo">Before the session · on your own</span>
+  <h2>2. Four ideas algebra needs before the letters arrive<span class="time">12 minutes</span></h2>
+  <p class="lede">Each of these is learnable from age five and each is routinely left until it is too late. In every case the wrong idea students bring is not carelessness — it is a correct generalisation from the diet of examples they were fed.</p>
+
+  <h3>One. The equals sign says "same value", not "here comes the answer"</h3>
+  <p>Ask a class of ten-year-olds to fill in <span class="maths">8 + 4 = □ + 5</span>. In the study that made this famous, fewer than one child in ten wrote 7. The common answers are 12 — the total of the left side — and 17, the running total of everything in sight.</p>
+  <div class="wrong">
+    <strong>The nameable wrong answer:</strong> "<span class="maths">=</span> means work it out and write the result." <br>
+    <strong>Where it was learned:</strong> six years of number sentences with one operation on the left and one number on the right. Given that diet, "the answer goes after the equals sign" is the right generalisation. We taught it by accident, thoroughly.
+  </div>
+  <p class="tell">The tell: a student who can recite "equals means the same as" and still computes left-to-right when you put something on both sides.</p>
+
+  <h3>Two. A letter is not a shorthand for an object</h3>
+  <p>Students meet <span class="maths">3a + 5a</span> and are told, helpfully, "three apples plus five apples". It works. It keeps working for a term. It breaks the moment <em>a</em> is a price rather than an apple, breaks harder at <span class="maths">a²</span>, and breaks completely when the letter has to stand for a quantity that varies rather than a specific hidden number.</p>
+  <p>There are three different jobs a letter does, and they are usually taught as if they were one: the <strong>unknown</strong> (one particular number, currently hidden, findable), the <strong>generalised number</strong> (any number, as in <span class="maths">a + b = b + a</span>), and the <strong>variable</strong> (a quantity that varies, in step with another). Asking which job the letter is doing today is a question most students have never been asked.</p>
+  <div class="wrong">
+    <strong>The nameable wrong answer:</strong> "<span class="maths">n</span> stands for a thing — a number of apples, a name, a label." <br>
+    <strong>Where it was learned:</strong> from us, as a kindness. "3 apples plus 5 apples" is an accurate description of the syntax and a false account of the meaning.
+  </div>
+  <p class="tell">The tell: ask which is bigger, <span class="maths">n + 2</span> or <span class="maths">2n</span>. "2n, obviously" means the letter is being read as a specific largish number rather than as something that varies. The answer is that it depends — they are equal at 2, and <span class="maths">n + 2</span> is bigger below it.</p>
+
+  <h3>Three. An expression is a finished object</h3>
+  <p>Ask for the perimeter of a rectangle with sides <span class="maths">n</span> and 4 and many students refuse the answer <span class="maths">2n + 8</span>. It doesn't look finished. It has an operation still sitting in it, and everything they have ever been asked to do with a visible operation is carry it out.</p>
+  <div class="wrong">
+    <strong>The nameable wrong answer:</strong> "<span class="maths">2n + 8</span> can't be the answer — it hasn't been worked out yet." Hence the invented closure: <span class="maths">2n + 8 = 10n</span>.<br>
+    <strong>Where it was learned:</strong> from arithmetic, where every expression could be collapsed to a single number and always was.
+  </div>
+  <p class="tell">The tell: students who add a spurious final step to reach a single term, or who ask "but what does it equal?" of a perfectly complete answer.</p>
+
+  <h3>Four. A pattern has two kinds of rule, and school teaches only one</h3>
+  <p>A tiled path takes 4, 7, 10, 13 tiles for lengths 1, 2, 3, 4. Almost every child finds "add 3 each time". Almost none of them, unprompted, finds the rule that takes you straight from the length to the number of tiles — and only the second kind of rule answers "how many for length 100?" without counting to a hundred.</p>
+  <p>The step-by-step rule is <em>recursive</em>; the direct one is a <em>correspondence</em>, and it is where the function concept lives. "What comes next?" is a real question that, asked exclusively, keeps students inside the recursive rule for years.</p>
+  <div class="wrong">
+    <strong>The nameable wrong answer:</strong> "The rule is +3." Followed, when pushed to length 100, by either counting or by the proportional guess — term 8 must be double term 4.<br>
+    <strong>Where it was learned:</strong> a decade of pattern-continuation tasks that never once asked for the hundredth term.
+  </div>
+  <p class="tell">The tell: term 4 of that path is 13 tiles. Ask for term 8. An immediate 26 — double term 4 — means the pattern has been read as a proportion, which it isn't: the true answer is 25, and the gap is the constant tile that doubling ignores.</p>
+
+  <div class="prompt">
+    <p class="q">Which of the four is doing the most damage in your classes, and what is your evidence?</p>
+    <p class="why">Commit to one. If you name all four you'll have nothing to test next week.</p>
+    <textarea data-k="which" placeholder="Mine is..., and I think so because..."></textarea>
+    <div class="saved"></div>
+  </div>
+</section>
+
+<section>
+  <span class="phase p-solo">Before the session · on your own</span>
+  <h2>3. Watch the programme<span class="time">about 90 minutes</span></h2>
+
+  <div class="callout warm" id="hostnote">
+    <p><strong>Download before the session rather than streaming.</strong> The Harvard server is slow and intermittently refuses connections. From this folder, in PowerShell:</p>
+    <p><code>Invoke-WebRequest https://lweb.cfa.harvard.edu/smgdvl/mbi/videos/mbi7.mp4 -OutFile videos\mbi7.mp4</code></p>
+    <p>The player below uses your local copy when it exists.</p>
+  </div>
+
+  <video controls preload="metadata" id="vid">
+    <source src="videos/mbi7.mp4" type="video/mp4">
+    <source src="video/mbi7.mp4" type="video/mp4">
+    <source src="https://lweb.cfa.harvard.edu/smgdvl/mbi/videos/mbi7.mp4" type="video/mp4">
+  </video>
+  <p class="vnote" id="vsrc">Uses your downloaded copy if present, otherwise streams.</p>
+
+  <div class="prompt">
+    <p class="q">Find the youngest child in the programme doing something you would be willing to call algebra. What made it algebra?</p>
+    <p class="why">This is the argument of the whole workshop, and it is more convincing from footage of a six-year-old than from anyone asserting it. The 1997 discussion predates most of the vocabulary in section 2, so you will be mapping what you see onto later framing rather than hearing the terms used.</p>
+    <textarea data-k="youngest" placeholder="A child of about... was..., and it counts because..."></textarea>
+    <div class="saved"></div>
+  </div>
+</section>
+
+<section>
+  <span class="phase p-solo">Before the session · in your classroom</span>
+  <h2>4. The six-item probe<span class="time">15 minutes of lesson time</span></h2>
+  <p class="lede">Every teacher in the school gives the same six items, primary and secondary, to one class. Take the answers to the session. The point is not the score — it is that the same wrong answers appear in year 3 and year 10.</p>
+
+  <table>
+    <tbody>
+    <tr><th class="t">Item</th><th>Ask</th><th>What a wrong answer tells you</th></tr>
+    <tr><td class="item">1</td><td class="maths">8 + 4 = □ + 5</td><td>12 or 17: the equals sign is being read as an instruction. Idea one.</td></tr>
+    <tr><td class="item">2</td><td>True or false, <em>without</em> calculating: <span class="maths">57 + 34 = 34 + 57</span></td><td>Any calculating at all: they can't yet reason about structure, only about totals. Idea one.</td></tr>
+    <tr><td class="item">3</td><td class="maths">15 + 27 = 16 + □</td><td>43, or a full recalculation: the compensation is invisible to them. Relational thinking not yet available.</td></tr>
+    <tr><td class="item">4</td><td>Which is bigger, <span class="maths">n + 2</span> or <span class="maths">2n</span>?</td><td>"2n" with no conditions: the letter is a specific largish number, not a variable. Idea two.</td></tr>
+    <tr><td class="item">5</td><td>There are five times as many students as teachers. Write that with <span class="maths">S</span> and <span class="maths">T</span>.</td><td><span class="maths">5S = T</span>: translated word order rather than meaning. Survives into engineering degrees. Idea two.</td></tr>
+    <tr><td class="item">6</td><td>A path of length 1, 2, 3, 4 needs 4, 7, 10, 13 tiles. How many for length 100? What does <span class="maths">3n + 1</span> mean here?</td><td>"Add 3" and no route to 100: recursive lock. Refusing <span class="maths">3n + 1</span> as an answer: ideas three and four together.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Primary colleagues: give items 1, 2, 3 and 6 as they stand. Item 6 works from about year 3 with tiles on the desk. Secondary colleagues: give all six, and give them to your strongest class as well as your weakest — the results from the top set are the ones that change the conversation.</p>
+
+  <div class="prompt">
+    <p class="q">Your class, and the wrong answers you got — in their words where you can.</p>
+    <p class="why">Verbatim matters. "Some struggled" tells the group nothing; "she said 12 because 8 and 4 makes 12, and then crossed it out and wrote 17" tells them everything.</p>
+    <textarea data-k="probe" placeholder="Year __, __ students. Item 1: ... Item 4: ..." style="min-height:150px"></textarea>
+    <div class="saved"></div>
+  </div>
+</section>
+
+<section>
+  <span class="phase p-solo">Before the session · on your own</span>
+  <h2>5. Is it a threshold?<span class="time">10 minutes</span></h2>
+  <p class="lede">Four candidate ideas is not the same as four thresholds. Our standard is Meyer and Land's five tests, all five required, plus a sixth of our own: the wrong answer has to be nameable, and ideally traceable to the earlier rule that produced it. Here is idea one, tested in full.</p>
+
+  <table>
+    <tbody>
+    <tr><th>Test</th><th>The equals sign as a statement of equal value</th></tr>
+    <tr><td><strong>Transformative</strong></td><td>Passes. Every equation the student meets afterwards reads differently: not a calculation to perform but a balance to preserve.</td></tr>
+    <tr><td><strong>Irreversible</strong></td><td>Passes. You cannot go back to seeing <span class="maths">8 + 4 = □ + 5</span> as "twelve". Teachers routinely can't reconstruct why their students find it hard.</td></tr>
+    <tr><td><strong>Integrative</strong></td><td>Passes. It ties together the commutative and associative properties, equation solving, equivalent expressions, and later identities and function notation — which stay four unrelated topics without it.</td></tr>
+    <tr><td><strong>Troublesome</strong></td><td>Passes. Not merely hard: counter-intuitive against six years of successful practice, and it produces inert knowledge — the definition can be recited while the behaviour stays operational.</td></tr>
+    <tr><td><strong>Discursive</strong></td><td>Passes. Talk changes. "Is the same value as", "both sides", and justification from structure — "it must be, because both are 34 and 57 added" — instead of justification from calculation.</td></tr>
+    <tr><td><strong>Nameable misconception</strong></td><td>Passes. "<span class="maths">=</span> means write the answer next", traceable to a diet of single-operation number sentences.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>The threshold statement.</strong> Under thirty words, with the contrast made explicit:</p>
+    <p>"The equals sign states that two expressions have the same value. It is not an instruction to calculate and write the result."</p>
+  </div>
+
+  <div class="prompt">
+    <p class="q">Now do one of the other three. Which tests does it pass, and where does it fail?</p>
+    <p class="why">Failing a test is a useful result, not a wasted exercise. An idea that is merely difficult is not a threshold, and calling it one devalues the ones that are. Write the threshold statement too, under thirty words, with the "not X" in it.</p>
+    <textarea data-k="threshold" placeholder="Idea: ... Transformative: ... Irreversible: ... Integrative: ... Troublesome: ... Discursive: ... Nameable misconception: ... Statement: ..." style="min-height:180px"></textarea>
+    <div class="saved"></div>
+  </div>
+</section>
+
+<section>
+  <span class="phase p-group">Group session · facilitator</span>
+  <h2>6. Session agenda<span class="time">75 minutes</span></h2>
+
+  <div class="callout warm">
+    <p><strong>Seat primary and secondary teachers in mixed pairs before anyone sits down with their own department.</strong> The entire value of this session is in that pairing. If the two phases sit separately you will get two conversations about the other phase's failings and no shared work.</p>
+  </div>
+
+  <table>
+    <tbody>
+    <tr><th class="t">Time</th><th>What happens</th></tr>
+    <tr><td class="t">0–5</td><td><strong>Frame it.</strong> Algebra is not a topic that arrives in year 7. Every year group in this room is already teaching it or already blocking it.</td></tr>
+    <tr><td class="t">5–20</td><td><strong>The probe.</strong> In mixed pairs, swap the wrong answers you collected. Read them out by item, not by year group, so the room hears item 1 from year 3 and year 10 back to back. No analysis yet.</td></tr>
+    <tr><td class="t">20–32</td><td><strong>Diagnose.</strong> Sort the wrong answers into the four ideas. Expect disagreement about items 5 and 6 — the argument is the learning.</td></tr>
+    <tr><td class="t">32–50</td><td><strong>The vertical audit.</strong> The core exercise. Run it as below.</td></tr>
+    <tr><td class="t">50–62</td><td><strong>The design problem.</strong> Run it as below.</td></tr>
+    <tr><td class="t">62–70</td><td><strong>What this costs.</strong> Discuss honestly. Do not skip this.</td></tr>
+    <tr><td class="t">70–75</td><td><strong>Commitment.</strong> One change, one class, a date.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The vertical audit <span class="time">32–50</span></h3>
+  <div class="callout">
+    <p><strong>Two columns on the wall. Which of our own routines plant these four ideas, and which block them?</strong></p>
+  </div>
+  <p>Candidates that usually surface as blockers, and are worth having ready if the room is slow to start:</p>
+  <ul>
+    <li>Worksheets where the answer box is always on the right of the equals sign.</li>
+    <li>"Sum" used to mean "the question", so <span class="maths">=</span> becomes the boundary between question and answer.</li>
+    <li>Pattern work that only ever asks what comes next.</li>
+    <li>"Three apples plus five apples" as the explanation for collecting like terms.</li>
+    <li>Marking a correct <span class="maths">2n + 8</span> as incomplete.</li>
+    <li>Mental strategies taught as tricks — "just add 1 to one and take 1 off the other" — without ever asking why it works, which is the generalisation.</li>
+  </ul>
+  <p>And the routines that already do the work, which primary colleagues usually have not been given credit for: missing-number problems in any position; true-or-false number sentences; "make ten" and compensation strategies when the reasoning is made explicit; asking whether something is <em>always</em> true; growing patterns built with physical materials where the structure stays visible.</p>
+  <p><strong>Facilitator note.</strong> Insist on named routines and named year groups, not principles. "We should use more relational thinking" changes nothing on Monday. "Year 4's mental maths starter will ask why the compensation works, every Tuesday, from next week" does.</p>
+
+  <h3>The design problem <span class="time">50–62</span></h3>
+  <div class="callout warm">
+    <p><strong>Design a task where the wrong idea visibly fails — without telling anyone they are wrong.</strong> Take one of the four. The task has to be one where a student holding the misconception gets a result that does not work, and notices.</p>
+  </div>
+  <p>The constraint is the exercise. Telling is what we already do, and telling is what produced students who can recite "equals means the same as" while computing left to right.</p>
+  <p><strong>Facilitator notes.</strong> Push for the actual numbers, the actual prompt, the actual sequence. Two things reliably surface, both worth naming out loud:</p>
+  <ul>
+    <li>The student has to commit to a prediction <em>before</em> the task runs, or they will not notice that their idea failed. They will absorb the result as a special case.</li>
+    <li>One counter-example is rarely enough. Where the wrong idea has years of successful use behind it, a single failure gets filed as a curiosity that leaves the general rule intact.</li>
+  </ul>
+
+  <h3>What this costs <span class="time">62–70</span></h3>
+  <div class="callout">
+    <p>Relational thinking is slower than procedural fluency to teach and does not show up on the next assessment. Primary colleagues are being asked to spend time on structure that their own results do not reward, for the benefit of a department they may never meet.</p>
+    <p>Ask the room directly: <strong>what would we stop doing, and who has the authority to agree it?</strong></p>
+  </div>
+  <p>This question decides whether the session changes anything. If nobody in the room controls a scheme of work, the audit on the wall is decoration. Get the primary maths lead and the secondary head of department in the same room or postpone the session.</p>
+</section>
+
+<section>
+  <span class="phase p-after">After the session</span>
+  <h2>7. Your commitment</h2>
+
+  <div class="prompt">
+    <p class="q">One routine you will change, with a class and a date.</p>
+    <p class="why">A routine, not a lesson. The four ideas are built by what happens every week, not by one good lesson on equality.</p>
+    <textarea data-k="commit" placeholder="From [date], in [class], my [routine] will..."></textarea>
+    <div class="saved"></div>
+  </div>
+
+  <div class="prompt">
+    <p class="q">What will you give up to make room for it?</p>
+    <p class="why">If the answer is nothing, the change probably won't happen. Better to know now.</p>
+    <textarea data-k="tradeoff" placeholder="I'll spend less time on..."></textarea>
+    <div class="saved"></div>
+  </div>
+
+  <div class="prompt">
+    <p class="q">Re-run one probe item with the same class in six weeks. What changed?</p>
+    <p class="why">Item 1 or item 2 is the cheapest test — two minutes of a lesson. Without this, nobody in the school will know whether any of it worked.</p>
+    <textarea data-k="retest" placeholder="Six weeks on, item __ with the same class:"></textarea>
+    <div class="saved"></div>
+  </div>
+
+  <div class="callout go">
+    <p><strong>Next.</strong> Workshop 8, <em>The Future of Mathematics: Ferns and Galaxies</em>, closes the series. It sits naturally after this one: generalisation is what makes the mathematics in it possible, and it gives the answer to "when would anyone use this" that algebra usually lacks.</p>
+  </div>
+</section>
+
+<p class="foot">
+  Video © 1997 Smithsonian Institution Astrophysical Observatory, in partnership with the Annenberg Foundation.
+  Research referenced: Falkner, Levi and Carpenter on children's understanding of equality; Carpenter, Franke and Levi on relational thinking and true-or-false number sentences; Küchemann and the CSMS study on children's interpretation of letters; Clement, Lochhead and Monk on the students-and-professors reversal error; Collis on acceptance of lack of closure; Sfard on the operational-to-structural shift; Kaput and Blanton on early algebra across the grades.
+  Threshold criteria after Meyer and Land, with the nameable-misconception test added.
+  <a href="https://lweb.cfa.harvard.edu/smgdvl/mbi/index.html">Back to the series</a>
+</p>
+
+</div>
+
+<script>
+(function(){
+var KEY='mbi_w7_';
+var boxes=[].slice.call(document.querySelectorAll('textarea'));
+boxes.forEach(function(t){
+  var k=KEY+t.dataset.k;
+  try{var s=localStorage.getItem(k); if(s){t.value=s;}}catch(e){}
+  var timer=null;
+  t.addEventListener('input',function(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      try{localStorage.setItem(k,t.value)}catch(e){}
+      var f=t.parentNode.querySelector('.saved');
+      if(f){f.textContent='Saved';setTimeout(function(){f.textContent=''},1600)}
+      progress();
+    },400);
+  });
+});
+function progress(){
+  var done=boxes.filter(function(t){return t.value.trim().length>0}).length;
+  var fill=document.getElementById('tfill'), st=document.getElementById('status');
+  if(fill){fill.style.width=(boxes.length?Math.round(done/boxes.length*100):0)+'%'}
+  if(st){st.textContent = done===boxes.length
+    ? 'All '+boxes.length+' responses complete. Saved on this machine only.'
+    : done+' of '+boxes.length+' saved. This browser only, nobody else can see them.'}
+}
+window.clearAll=function(){
+  if(!confirm('Delete all your saved responses on this device?'))return;
+  boxes.forEach(function(t){t.value='';try{localStorage.removeItem(KEY+t.dataset.k)}catch(e){}});
+  progress();
+};
+/* Two local candidates then Harvard. The browser walks the <source> list
+   itself; no fetch() involved, which matters because fetch() is blocked
+   under file:// and would always report "streaming". */
+var v=document.getElementById('vid'), note=document.getElementById('vsrc'), host=document.getElementById('hostnote');
+function report(){
+  if(!note)return;
+  var s=v.currentSrc||'';
+  if(!s)return;
+  if(s.indexOf('lweb.cfa.harvard.edu')===-1){
+    note.textContent='Playing your downloaded copy - no network needed.';
+    if(host){host.style.display='none'}
+  }else{
+    note.textContent='No local copy found - streaming from Harvard, which is slow and may fail. Download it first if you can.';
+  }
+}
+if(v){
+  v.addEventListener('loadedmetadata',report);
+  v.addEventListener('error',function(){
+    note.textContent='Could not load the video from either source. Download it with the PowerShell line above, or check your connection.';
+  },true);
+}
+progress();
+})();
+</script>
+
+</body>
+</html>
